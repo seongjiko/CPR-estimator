@@ -1,7 +1,8 @@
 # HQC Components Estimator
 HQC Components Estimator is a software that estimates High-Quality CPR (HQC) components from a CPR video that lasts more than 30 seconds. 
 
-![image](https://github.com/seongjiko/CPR-estimator/assets/46768743/d4b3c628-6cad-46ea-b0c2-b4b9e0c22b00)
+![image](https://github.com/seongjiko/CPR-estimator/assets/46768743/827fbb60-0839-4bf1-8320-ec0023d69a03)
+
 
 ## Getting Started
 
