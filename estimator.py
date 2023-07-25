@@ -79,8 +79,8 @@ def start_estimation(critical_image):
     output_depth, output_release, output_hand = model(images)
     output_depth_origin = (output_depth * 43) + 20
     
-    hand = "부적절" if output_hand.item() >= 0.5 else "적절"
-    release = "부적절" if output_release.item() >= 0.5 else "적절"
+    hand = "Incorrect" if output_hand.item() >= 0.5 else "Correct"
+    release = "Incorrect" if output_release.item() >= 0.5 else "Correct"
     depth = round(output_depth_origin.item(),2)
 
     # print("압박깊이 : ",depth, "mm")

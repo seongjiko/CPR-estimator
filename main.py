@@ -107,20 +107,28 @@ def start_analysis():
             widget.destroy()
 
         # Add new labels to the grid_frame
-        for i in range(7):
+        for i in range(8):
             for j in range(5):
                 label_text = labels_info.get((i, j), '')
                 label = tk.Label(grid_frame, text=label_text, font=('Arial', 14))
                 label.grid(row=i, column=j, padx=5, pady=5)
                 grid_frame.columnconfigure(j, weight=1)
                 grid_frame.rowconfigure(i, weight=1)
-        for i in range(1,7):
+        for i in range(1,8):
             if i < 6:
                 add_label_to_grid(i,1,total_count[i-1])
                 add_label_to_grid(i,2,total_hand[i-1])
                 add_label_to_grid(i,3,f'{total_depth[i-1]} mm')
                 add_label_to_grid(i,4,total_release[i-1])
-            if i == 6: # 총점 평균
+
+            if i == 6: # 경계선
+                add_label_to_grid(i,1,'------------------')
+                add_label_to_grid(i,2,'------------------')
+                add_label_to_grid(i,2,'------------------')
+                add_label_to_grid(i,3,'------------------')
+                add_label_to_grid(i,4,'------------------')
+
+            if i == 7: # 총점 평균
                 add_label_to_grid(i,1,np.mean(total_count))
                 add_label_to_grid(i,2,Counter(total_hand).most_common(1)[0][0])
                 add_label_to_grid(i,3,f'{np.round(np.mean(total_depth),2)} mm')
@@ -132,17 +140,18 @@ def start_analysis():
 import tkinter as tk
 
 labels_info = {
-    (0, 0): '시간',
-    (0, 1): '압박 횟수',
-    (0, 2): '손 위치',
-    (0, 3): '압박 깊이',
-    (0, 4): '완전이완여부',
-    (1, 0): '5~10초',
-    (2, 0): '10~15초',
-    (3, 0): '15~20초',
-    (4, 0): '20~25초',
-    (5, 0): '25~30초',    
-    (6, 0): '평균',
+    (0, 0): 'Times',
+    (0, 1): 'Num of CCs',
+    (0, 2): 'Hand position',
+    (0, 3): 'Maximum depth of CCs',
+    (0, 4): 'complete release of CCs',
+    (1, 0): '5~10s',
+    (2, 0): '10~15s',
+    (3, 0): '15~20s',
+    (4, 0): '20~25s',
+    (5, 0): '25~30s',    
+    (6, 0): '----------',
+    (7, 0): 'Overall (average)'
 }
 
 
@@ -150,7 +159,7 @@ root = TkinterDnD.Tk()
 root.drop_target_register(DND_FILES)
 root.dnd_bind('<<Drop>>', drop)
 root.title("HQC Estimator")
-root.geometry('600x700')
+root.geometry('1000x700')
 root.resizable(True, True) 
 
 # Apply ttk theme
