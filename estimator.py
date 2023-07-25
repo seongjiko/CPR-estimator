@@ -48,7 +48,6 @@ def start_estimation(critical_image):
     test_loader = DataLoader(test_dataset, batch_size = 1, shuffle=False)
     images = next(iter(test_loader))
 
-    # print(images[0])
     class MultiTaskModel(nn.Module):
         def __init__(self, num_classes1 = 1, num_classes2 = 1, num_classes3 = 1):
             super(MultiTaskModel, self).__init__()
@@ -80,12 +79,12 @@ def start_estimation(critical_image):
     output_depth, output_release, output_hand = model(images)
     output_depth_origin = (output_depth * 43) + 20
     
-    hand = "정상" if output_hand.item() >= 0.5 else "비정상"
-    release = "비정상" if output_release.item() >= 0.5 else "정상"
+    hand = "부적절" if output_hand.item() >= 0.5 else "적절"
+    release = "부적절" if output_release.item() >= 0.5 else "적절"
     depth = round(output_depth_origin.item(),2)
 
-    print("압박깊이 : ",depth, "mm")
-    print("손 위치 : ", hand)
-    print("완전이완여부 : ", release)
+    # print("압박깊이 : ",depth, "mm")
+    # print("손 위치 : ", hand)
+    # print("완전이완여부 : ", release)
 
     return depth, release, hand
