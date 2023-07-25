@@ -12,6 +12,15 @@ Here's how to get this software up and running on your local machine.
 
 The software runs on Python version 3.7 and above, but below version 3.11.
 
+CUDA must be installed for GPU environment support. You can confirm this by running the following Python code:
+
+```python
+import torch
+print(torch.cuda.is_available())
+```
+
+This should return True.
+
 ### Installation
 
 1. Clone the repository to your local machine.
