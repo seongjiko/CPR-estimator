@@ -10,24 +10,7 @@ from PIL import Image, ImageTk
 import numpy as np
 from collections import Counter
 
-# i = 0
-# temp = list('[>=========]')
-def animate_dots():
-#     global i
-#     global temp
-#     backup = loading_label['text']
-    
-#     temp[i+1] = '='
-#     temp[i+2] = '>'
-#     temp = ''.join(temp)
-#     loading_label['text'] += temp
-
-    
-#     i+=1
-#     if i == 10:
-#         i = 0
-#         temp = list('[>=========]')
-    
+def animate_dots():    
     loading_label['text'] 
     dots = loading_label['text'].count('.')
     if dots < 3:
@@ -37,7 +20,10 @@ def animate_dots():
     root.after(500, animate_dots) 
     
 def load_and_display_frame(filepath):
+    global file_path
+
     cap = cv2.VideoCapture(filepath)
+
     ret, frame = cap.read()
     cap.release()
     if ret:
@@ -51,26 +37,30 @@ def load_and_display_frame(filepath):
 def drop(event):
     global file_path
     file_path = event.data
-    load_and_display_frame(file_path)
-    file_label.config(text=f'Loaded file: {file_path}')
-    start_button.config(state=tk.NORMAL)
+
+    if file_path:
+        load_and_display_frame(file_path)
+        file_label.config(text=f'Loaded file: {file_path}')
+        start_button.config(state=tk.NORMAL)
 
 def open_file_explorer():
     global file_path
     file_path = filedialog.askopenfilename(filetypes=[("Video files", "*.mp4;*.avi")])
     if file_path:
         load_and_display_frame(file_path)
-        # file_label.config(text=f'Loaded file: {file_path}')
-        file_label.config(text=f'Loaded file: done') # 크기가 계속 깨져서 수정
+        file_label.config(text=f'Loaded file: {file_path}')
         start_button.config(state=tk.NORMAL)
 
 def start_analysis_thread():
     thread = threading.Thread(target=start_analysis)
     thread.start()
 
-def add_label_to_grid(row, column, text):
+def add_label_to_grid(row, column, text, idx = None):
     labels_info[(row, column)] = text
-    label = tk.Label(grid_frame, text=text, font=('Arial', 14))
+
+    fontsize = 17 if idx == 8 else 14
+
+    label = tk.Label(grid_frame, text=text, font=('Arial', fontsize))
     label.grid(row=row, column=column, padx=5, pady=5)
     grid_frame.columnconfigure(column, weight=1)
     grid_frame.rowconfigure(row, weight=1)
@@ -83,7 +73,6 @@ def start_analysis():
     total_release = np.array(())
 
     if file_path:
-
         loading_label = tk.Label(root, text='Estimating', font=('Arial', 30))
         loading_label.pack()
         root.after(500, animate_dots)  # Start the animation
@@ -94,7 +83,7 @@ def start_analysis():
             critical_avg_image = cv2.convertScaleAbs(critical_avg_image)
             critical_avg_image = cv2.cvtColor(critical_avg_image, cv2.COLOR_BGR2RGB)
             depth, release, hand = start_estimation(critical_avg_image)
-            #각 5초마다 분석결과를 넣어줌.
+
             total_count = np.append(total_count,count)
             total_hand = np.append(total_hand,hand)
             total_depth = np.append(total_depth,depth)
@@ -107,32 +96,43 @@ def start_analysis():
             widget.destroy()
 
         # Add new labels to the grid_frame
-        for i in range(8):
+        for i in range(9):
             for j in range(5):
                 label_text = labels_info.get((i, j), '')
-                label = tk.Label(grid_frame, text=label_text, font=('Arial', 14))
+                fontsize = 17 if i == 0 or i == 8 else 14
+                
+                label = tk.Label(grid_frame, text=label_text, font=('Arial', fontsize))
+
                 label.grid(row=i, column=j, padx=5, pady=5)
                 grid_frame.columnconfigure(j, weight=1)
                 grid_frame.rowconfigure(i, weight=1)
-        for i in range(1,8):
-            if i < 6:
-                add_label_to_grid(i,1,total_count[i-1])
-                add_label_to_grid(i,2,total_hand[i-1])
-                add_label_to_grid(i,3,f'{total_depth[i-1]} mm')
-                add_label_to_grid(i,4,total_release[i-1])
 
-            if i == 6: # 경계선
+        for i in range(1,9):
+            if i == 1: # 경계선
+                add_label_to_grid(i,0,'------------------')
                 add_label_to_grid(i,1,'------------------')
-                add_label_to_grid(i,2,'------------------')
                 add_label_to_grid(i,2,'------------------')
                 add_label_to_grid(i,3,'------------------')
                 add_label_to_grid(i,4,'------------------')
 
-            if i == 7: # 총점 평균
-                add_label_to_grid(i,1,np.mean(total_count))
-                add_label_to_grid(i,2,Counter(total_hand).most_common(1)[0][0])
-                add_label_to_grid(i,3,f'{np.round(np.mean(total_depth),2)} mm')
-                add_label_to_grid(i,4,Counter(total_release).most_common(1)[0][0])
+            elif i < 7:
+                add_label_to_grid(i,1,total_count[i-2])
+                add_label_to_grid(i,2,total_hand[i-2])
+                add_label_to_grid(i,3,f'{total_depth[i-2]} mm')
+                add_label_to_grid(i,4,total_release[i-2])
+
+            elif i == 7: # 경계선
+                add_label_to_grid(i,0,'------------------')
+                add_label_to_grid(i,1,'------------------')
+                add_label_to_grid(i,2,'------------------')
+                add_label_to_grid(i,3,'------------------')
+                add_label_to_grid(i,4,'------------------')
+
+            elif i == 8: # 총점 평균
+                add_label_to_grid(i,1,np.mean(total_count), i)
+                add_label_to_grid(i,2,Counter(total_hand).most_common(1)[0][0], i)
+                add_label_to_grid(i,3,f'{np.round(np.mean(total_depth),2)} mm', i)
+                add_label_to_grid(i,4,Counter(total_release).most_common(1)[0][0], i)
 
     else:
         print('No file loaded.')
@@ -145,13 +145,13 @@ labels_info = {
     (0, 2): 'Hand position',
     (0, 3): 'Maximum depth of CCs',
     (0, 4): 'complete release of CCs',
-    (1, 0): '5~10s',
-    (2, 0): '10~15s',
-    (3, 0): '15~20s',
-    (4, 0): '20~25s',
-    (5, 0): '25~30s',    
-    (6, 0): '----------',
-    (7, 0): 'Overall (average)'
+    (2, 0): '5~10s',
+    (3, 0): '10~15s',
+    (4, 0): '15~20s',
+    (5, 0): '20~25s',
+    (6, 0): '25~30s',    
+    (7, 0): '------------------',
+    (8, 0): 'Overall (average)'
 }
 
 
@@ -159,26 +159,27 @@ root = TkinterDnD.Tk()
 root.drop_target_register(DND_FILES)
 root.dnd_bind('<<Drop>>', drop)
 root.title("HQC Estimator")
-root.geometry('1000x700')
+root.geometry('1200x800')
 root.resizable(True, True) 
 
 # Apply ttk theme
 style = ttk.Style()
 style.theme_use('clam')
+style.configure('big.TButton', font=('Arial', 20))
 
 button_frame = tk.Frame(root)
 button_frame.pack(fill=tk.BOTH, pady=10)
 
-browse_button = ttk.Button(button_frame, text='Select File', command=open_file_explorer)
+browse_button = ttk.Button(button_frame, text='Select File', command=open_file_explorer, style='big.TButton')
 browse_button.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=5)
 
-start_button = ttk.Button(button_frame, text='Start Analysis', command=start_analysis_thread, state=tk.DISABLED)
+start_button = ttk.Button(button_frame, text='Start Analysis', command=start_analysis_thread, state=tk.DISABLED, style='big.TButton')
 start_button.pack(side=tk.RIGHT, expand=True, fill=tk.X, padx=5)
 
 drop_frame = tk.Frame(root, bd=2, relief='groove', bg='#dddddd')
 drop_frame.pack(fill=tk.BOTH, padx=10, pady=10, expand=True)
 
-file_label = tk.Label(drop_frame, text='Drag and Drop Video File Here or Select a File', bg='#dddddd', fg='#333333', font=('Helvetica', 14))
+file_label = tk.Label(drop_frame, text='Drag and Drop Video File Here or Select a File', bg='#dddddd', fg='#333333', font=('Arial', 20))
 file_label.pack(fill=tk.BOTH, expand=True)  
 
 image_label = tk.Label(root)
