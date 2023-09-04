@@ -95,7 +95,7 @@ def thread_start():
 
         if event.is_set():
             print("스레드 종료")
-        if len(video)<=FPS_x5: # 145만큼 쌓이기 전에 시작하면안됨.
+        if len(video)<=FPS_x5: # 5초 분량 만큼 쌓이기 전에 시작하면안됨.
             time.sleep(5)
             continue
 
