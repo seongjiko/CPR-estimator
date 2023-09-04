@@ -21,6 +21,10 @@ print(torch.cuda.is_available())
 
 This should return True.
 
+
+https://github.com/seongjiko/CPR-estimator/assets/105999203/602b4f1c-747a-40ce-8e14-6f44c984b91d
+
+
 ### Installation
 
 1. Clone the repository to your local machine.
