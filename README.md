@@ -3,9 +3,9 @@ HQC Components Estimator is a software that estimates High-Quality CPR (HQC) com
 
 ![image](https://github.com/seongjiko/CPR-estimator/assets/46768743/827fbb60-0839-4bf1-8320-ec0023d69a03)
 
-## real-time estimator demo
+<!-- ## real-time estimator demo -->
 
-https://github.com/seongjiko/CPR-estimator/assets/105999203/602b4f1c-747a-40ce-8e14-6f44c984b91d
+<!-- https://github.com/seongjiko/CPR-estimator/assets/105999203/602b4f1c-747a-40ce-8e14-6f44c984b91d -->
 
 ## Getting Started
 
