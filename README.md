@@ -61,5 +61,5 @@ python main_real_time.py
 
 ## Acknowledgments
 
-This project is a joint medical initiative by Dongtan Sacred Heart Hospital and the Department of Software at Hallym University, supported by a grant from the Ministry of Science and ICT of South Korea.
+This work was supported by the National Research Foundation of Korea(NRF) grant funded by the Korea government(MSIT) (No. 2021R1F1A1060211) and in part by the National Research Foundation of Korea (NRF) funded by the Korean Government (MSIT) under Grant NRF-2022R1A4A1033600. 
 
