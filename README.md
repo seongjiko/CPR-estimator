@@ -1,3 +1,13 @@
+# Harnessing Optical Flow in Deep Learning Framework for Cardiopulmonary Resuscitation Training
+> Elsevier, Expert System with Application journal
+
+# Overview
+<center> <img width="876" alt="image" src="https://github.com/seongjiko/CPR-estimator/assets/46768743/7979d7ac-6f67-4866-85d9-9f2b89db91cb"> </center>
+
+
+
+> The global rise in out-of-hospital cardiac arrests underscores the importance of cardiopulmonary resuscitation (CPR) training. However, the high cost of feedback-equipped manikins limits widespread CPR education. To address this, we propose a deep learning solution that transforms smartphone-captured chest compression videos into images for feedback. This model assesses four key CPR quality indicators: compression count, depth, complete release, and hand positioning. By using composite-image evaluation, we simplify video processing and achieve effective performance. This cost-effective approach not only broadens CPR educational opportunities but also aims to enhance survival rates for cardiac arrest patients.
+
 # HQC Components Estimator
 HQC Components Estimator is a software that estimates High-Quality CPR (HQC) components from a CPR video that lasts more than 30 seconds. 
 
