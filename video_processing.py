@@ -50,4 +50,7 @@ def process_video(video_path,start_frame):
 
     if len(saved_images) > 0:
         saved_images = np.average(np.array(saved_images), axis=0)
-        return saved_images, count
+        count_times_12 = count * 12 # 60초에 단위로 보려면
+        return saved_images, count_times_12
+
+        # return saved_images, count
