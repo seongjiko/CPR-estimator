@@ -1,4 +1,4 @@
-![image](https://github.com/seongjiko/CPR-estimator/assets/105999203/5a3198e1-a82b-4293-b134-c13cf77dbed1)# Harnessing Optical Flow in Deep Learning Framework for Cardiopulmonary Resuscitation Training
+# Harnessing Optical Flow in Deep Learning Framework for Cardiopulmonary Resuscitation Training
 > Elsevier, Expert System with Application journal
 
 # Overview
