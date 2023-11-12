@@ -15,8 +15,6 @@ current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")  # 현재 날�
 
 event = Event() # 스레드 종료를 위함
 
-save_path = f"C:/Users/MMC/Desktop/record/{current_time}"
-
 FPS_x5 = 150 # cam fps * 5 
 # FPS_x5 = 145 # cam fps * 5 
 
@@ -95,7 +93,7 @@ def thread_start():
 
         if event.is_set():
             print("스레드 종료")
-        if len(video)<=FPS_x5: # 5초 분량 만큼 쌓이기 전에 시작하면안됨.
+        if len(video)<=FPS_x5: # 145만큼 쌓이기 전에 시작하면안됨.
             time.sleep(5)
             continue
 
@@ -148,7 +146,7 @@ def finish_analysis_thread():
     browse_button.config(state=tk.DISABLED)
     start_button.config(state=tk.NORMAL)
     analysis_now=False
-    export_labels_to_csv(f"{save_path}.csv")
+    export_labels_to_csv(f"C:/Users/CPR/Desktop/{current_time}.csv")
     
 
 def start_analysis_thread():
@@ -245,7 +243,7 @@ def camera():
 
     # 작업이 끝난 후 비디오 저장 및 리소스 해제
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for MP4 format
-    out = cv2.VideoWriter(f'{save_path}.mp4', fourcc, 30, (frame.shape[1], frame.shape[0]))
+    out = cv2.VideoWriter(f'C:/Users/CPR/Desktop/{current_time}.mp4', fourcc, 30, (frame.shape[1], frame.shape[0]))
 
     # Loop through the frames in the 'video' list and save them to the video file
     for out_frame in out_video:
