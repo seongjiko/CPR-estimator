@@ -9,6 +9,14 @@ import cv2
 from PIL import Image, ImageTk
 import numpy as np
 from collections import Counter
+import time
+import csv
+import datetime
+
+current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")  # 현재 날짜와 시간을 문자열로 변환
+
+# save_path = f"C:/Users/CPR/Desktop/record_30sec/" # csv
+save_path = f"C:/Users/MMC/Desktop/" # csv
 
 def animate_dots():    
     loading_label['text'] 
@@ -33,6 +41,20 @@ def load_and_display_frame(filepath):
         frame_image_tk = ImageTk.PhotoImage(frame_image)
         image_label.config(image=frame_image_tk)
         image_label.image = frame_image_tk  # Keep a reference to the image so it's not garbage collected
+
+def export_grid_data_to_csv(grid_frame, filename): # make csv
+    with open(filename, mode='w', newline='') as csv_file:
+        csv_writer = csv.writer(csv_file)
+
+        # Iterate through the rows and columns of grid_frame
+        for row in range(grid_frame.grid_size()[1]):  # Rows
+            row_data = []
+            for column in range(grid_frame.grid_size()[0]):  # Columns
+                label = grid_frame.grid_slaves(row=row, column=column)[0]  # Get the label widget
+                text = label.cget('text')
+                row_data.append(text)
+            csv_writer.writerow(row_data)
+
 
 def drop(event):
     global file_path
@@ -116,8 +138,8 @@ def start_analysis():
                 add_label_to_grid(i,4,'------------------')
 
             elif i < 7:
-                add_label_to_grid(i,1,total_count[i-2])
-                add_label_to_grid(i,2,total_hand[i-2])
+                add_label_to_grid(i,1,f'{total_count[i-2]} BPM') # BPM 단위로 출력
+                add_label_to_grid(i,2,total_hand[i-2]) 
                 add_label_to_grid(i,3,f'{total_depth[i-2]} mm')
                 add_label_to_grid(i,4,total_release[i-2])
 
@@ -129,10 +151,13 @@ def start_analysis():
                 add_label_to_grid(i,4,'------------------')
 
             elif i == 8: # 총점 평균
-                add_label_to_grid(i,1,np.mean(total_count), i)
+                add_label_to_grid(i,1,f'{np.mean(total_count)} BPM', i)
                 add_label_to_grid(i,2,Counter(total_hand).most_common(1)[0][0], i)
                 add_label_to_grid(i,3,f'{np.round(np.mean(total_depth),2)} mm', i)
                 add_label_to_grid(i,4,Counter(total_release).most_common(1)[0][0], i)
+
+        export_grid_data_to_csv(grid_frame, f'{save_path}/{file_path.split("/")[-1]}.csv')
+        print(file_path)
 
     else:
         print('No file loaded.')
