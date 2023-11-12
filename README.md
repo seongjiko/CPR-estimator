@@ -1,4 +1,4 @@
-# Harnessing Optical Flow in Deep Learning Framework for Cardiopulmonary Resuscitation Training
+![image](https://github.com/seongjiko/CPR-estimator/assets/105999203/5a3198e1-a82b-4293-b134-c13cf77dbed1)# Harnessing Optical Flow in Deep Learning Framework for Cardiopulmonary Resuscitation Training
 > Elsevier, Expert System with Application journal
 
 # Overview
@@ -12,8 +12,7 @@
 
 # HQC Components Estimator
 HQC Components Estimator is a software that estimates High-Quality CPR (HQC) components from a CPR video that lasts more than 30 seconds. 
-
-![image](https://github.com/seongjiko/CPR-estimator/assets/46768743/827fbb60-0839-4bf1-8320-ec0023d69a03)
+![image](https://github.com/seongjiko/CPR-estimator/assets/105999203/49196c14-d13f-4568-8cec-5f0260fb84c2)
 
 <!-- ## real-time estimator demo -->
 
@@ -25,7 +24,7 @@ Here's how to get this software up and running on your local machine.
 
 ### Prerequisites
 
-The software runs on Python version 3.7 and above, but below version 3.11.
+The software runs on Python version 3.8
 
 CUDA must be installed for GPU environment support. You can confirm this by running the following Python code:
 
@@ -51,7 +50,7 @@ git clone https://github.com/seongjiko/CPR-estimator.git
 2. Navigate into the project directory and install the dependencies using pip.
 
 ```bash
-pip install -r requirements.txt
+conda env create -f requirements.yaml
 ```
 
 ## Usage
